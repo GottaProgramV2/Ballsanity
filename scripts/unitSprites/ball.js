@@ -8,6 +8,8 @@ function Ball() {
     this.count = 0;
     this.texture = PIXI.Texture.fromFrame("Gumballs");
     this.ball = new PIXI.Sprite(this.texture);
+    this.ball.anchor.x = .5;
+    this.ball.anchor.y = .5;
     this.ball.interactive = true;
     this.ballMove = false;
     this.gg = false;
@@ -27,6 +29,7 @@ Ball.constructor = Ball;
 Ball.prototype = Object.create(PIXI.Container.prototype);
 
 Ball.prototype.update = function(ballObj) {
+    this.position = ballObj.position;
     if (!this.gg)
     {
         this.boundsCheck(ballObj);
@@ -37,7 +40,6 @@ Ball.prototype.update = function(ballObj) {
         this.score.text = this.count;
         if (!this.ballMove)
         {
-            console.log("asdfff");
             ballObj.position.y += this.fallingSpeed[0];
             ballObj.position.x += this.fallingSpeed[1];
         }
@@ -45,10 +47,12 @@ Ball.prototype.update = function(ballObj) {
         // move ball up when clicked
         if (this.ballMove)
         {
-            console.log("ffffff");
             // up
+            console.log(this.movePosition);
             if (this.movePosition[1] > 0)
             {
+                console.log("ffffff");
+                console.log(ballObj.position.y);
                 ballObj.position.y -= this.movePosition[2];
                 this.movePosition[1] -= this.movePosition[2];
             }
@@ -89,8 +93,6 @@ Ball.prototype.handleClickEvents = function(spriteToHandle) {
 
     var that = this;
     function onButtonDown() {
-        that.count += 50;
-        console.log("asdf");
         // change movement to up
         that.ballMove = true;
         // set new falling speeds
@@ -99,9 +101,9 @@ Ball.prototype.handleClickEvents = function(spriteToHandle) {
         // choose left or right for falling speed
         if (Math.random() < .5) that.fallingSpeed[1] *= -1;
         // set goal position for that.ball
-        that.movePosition[0] = that.ball.position.x - Math.floor(Math.random() * 50 + 3);
-        that.movePosition[1] = that.ball.position.y - Math.floor(Math.random() * 50 + 3);
+        that.movePosition[0] = that.position.x - Math.floor(Math.random() * 50 + 3);
+        that.movePosition[1] = that.position.y - Math.floor(Math.random() * 50 + 3);
         // set increment values for that.ball position
-        that.movePosition[2] = Math.floor(Math.random() * 20 + 50);
+        that.movePosition[2] = Math.floor(Math.random() * 5 + 20);
     }
 };

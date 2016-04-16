@@ -8,7 +8,7 @@ function PlayGame(stage) {
 PlayGame.prototype.constructPlayGame = function(stage) {
     //Add to stage the units
     this.ball = new Ball();
-    this.ball.position.x = 200;
+    this.ball.position.x = 300;
     this.ball.position.y = 400;
     stage.addChild(this.ball);
 };
