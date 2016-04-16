@@ -35,7 +35,7 @@ function Main() {
 // make the bunny interaction
     bunny.interactive = true;
 //  interactions
-//   some not necessary, learning
+//   some not necessary, learning/ fake
     bunny
         .on('mousedown', onButtonDown)
         .on('mouseup', onButtonUp)
