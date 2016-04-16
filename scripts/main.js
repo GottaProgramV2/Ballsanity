@@ -11,7 +11,7 @@ function Main() {
     stage = new PIXI.Container();
 
 // create a texture from an image path
-    texture = PIXI.Texture.fromImage("../Resources/bunny.png");
+    texture = PIXI.Texture.fromImage("../res/bunny.png");
 
 // score text
     score = new PIXI.Text("0");
