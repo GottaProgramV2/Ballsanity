@@ -5,13 +5,21 @@
 	<script src="../lib/pixi.js"></script>
 	<script src="../scripts/gameLoop/playGame.js"></script>
 	<script src="../scripts/unitSprites/ball.js"></script>
+	<script src="../scripts/unitSprites/score.js"></script>
 	<script src="../scripts/main2.js"></script>
 </head>
-<body onload="init();">
-	<h1>Hello</h1>
+<body onload="init();" onkeypress="restart(event)">
+<h1>Hello</h1>
 <script>
 	function init() {
 		main = new Main2();
+	}
+	function restart(e) {
+		// press 'R'
+		if (e.keyCode == 114)
+		{
+			main.newGame();
+		}
 	}
 </script>
 </body>

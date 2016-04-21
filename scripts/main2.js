@@ -29,3 +29,9 @@ Main2.prototype.update = function() {
     this.renderer.render(this.stage);
     requestAnimationFrame(this.update.bind(this));
 };
+
+// TODO: separate this
+Main2.prototype.newGame = function() {
+    for (var i = this.stage.children.length - 1; i >= 0; i--) {	this.stage.removeChild(this.stage.children[i]); };
+    this.playGame = new PlayGame(this.stage);
+}

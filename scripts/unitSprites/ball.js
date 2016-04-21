@@ -79,7 +79,8 @@ Ball.prototype.boundsCheck = function(ballObj) {
     //  down
     if (ballObj.position.y > 800 && !this.gg)
     {
-        alert("nooo");
+        // TODO: move end game message
+        //alert("nooo");
         this.gg = true;
     }
     //  up

@@ -2,8 +2,8 @@
  * Created by ajt on 4/15/2016.
  */
 function Main() {
-    width = 800;
-    height = 600;
+    width = 600;
+    height = 800;
     renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor: 0x1099bb});
     document.body.appendChild(renderer.view);
 
