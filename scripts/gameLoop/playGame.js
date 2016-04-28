@@ -7,6 +7,10 @@ function PlayGame(stage) {
 }
 
 PlayGame.prototype.constructPlayGame = function(stage) {
+    this.stage = stage;
+    // create background image
+    this.background = new Background();
+    stage.addChild(this.background);
     // create score objects
     this.playerScore = new Score();
     stage.addChild(this.playerScore);
@@ -24,14 +28,18 @@ PlayGame.prototype.constructPlayGame = function(stage) {
         // add ball to stage
         stage.addChild(this.ballArray[i]);
     }
+    
 };
 
-PlayGame.prototype.update = function() {
+PlayGame.prototype.update = function(mouseData) {
     var endGame = 0;
+    // check if all the objects have fallen
     for (var i = 0; i < this.numOfBalls; i++)
     {
         this.ballArray[i].update(this.ballArray[i]);
         if (this.ballArray[i].gg) endGame++;
     }
+    // update score if user hasn't lost
     if (endGame != this.numOfBalls) this.playerScore.update();
+    this.background.update(this.background.background_image, mouseData, this.stage);
 };

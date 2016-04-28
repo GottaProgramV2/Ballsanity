@@ -1,5 +1,6 @@
 /**
  * Created by Anthony on 4/20/2016.
+ * description: this script will keep track of the points earned per session played
  */
 
 // probably want to pass in ball array object
@@ -16,11 +17,9 @@ function Score() {
 }
 
 Score.constructor = Score;
-
 Score.prototype = Object.create(PIXI.Container.prototype);
-
 Score.prototype.update = function() {
     // simple algorithm
     this.count++;
     this.score.text = this.count;
-}
+};
