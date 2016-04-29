@@ -4,6 +4,7 @@
 
 function Restart(stage) {
     PIXI.Container.call(this);
+    
 }
 
 Restart.constructor = Restart;
