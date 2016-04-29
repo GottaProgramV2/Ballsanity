@@ -1,7 +1,8 @@
 /**
  * Created by ajt on 4/16/2016.
- * description: This script handles servicing all objects within the stage
+ * description: This script handles servicing all objects within the stage.
  */
+ 
 function PlayGame(stage) {
     this.constructPlayGame(stage);
 }
@@ -27,11 +28,14 @@ PlayGame.prototype.constructPlayGame = function(stage) {
 };
 
 PlayGame.prototype.update = function() {
+    // end game counter
     var endGame = 0;
     for (var i = 0; i < this.numOfBalls; i++)
     {
         this.ballArray[i].update(this.ballArray[i]);
+        // everytime a ball has fallen to the bottom, increment counter
         if (this.ballArray[i].gg) endGame++;
     }
+    // if all balls have fallen down, stop incrementing score
     if (endGame != this.numOfBalls) this.playerScore.update();
 };

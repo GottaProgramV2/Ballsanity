@@ -1,51 +1,45 @@
 /**
  * Created by ajt on 4/16/2016.
+ * description: This script handles the state and properties of the main game objects
  */
+ 
 function Ball() {
     //it makes a new container with this
     PIXI.Container.call(this);
     //construct the ball in this function.
-    this.count = 0;
     this.texture = PIXI.Texture.fromFrame("Gumballs");
     this.ball = new PIXI.Sprite(this.texture);
     this.ball.anchor.x = .5;
     this.ball.anchor.y = .5;
     this.ball.interactive = true;
-    this.ballMove = false;
+    this.ballGoesUp = false;
     this.gg = false;
-    this.score = new PIXI.Text("0");
-    this.score.x = 200;
-    this.score.y = 40;
     this.movePosition = [];
     this.leftOrRight = 1;
     this.fallingSpeed = [Math.floor(Math.random() * 5 + 1), Math.floor(Math.random() * 10 + 20 * -1)];
     this.handleClickEvents(this.ball);
     this.addChild(this.ball);
-    //this.addChild(this.score);
 }
 
 Ball.constructor = Ball;
-
 Ball.prototype = Object.create(PIXI.Container.prototype);
-
 Ball.prototype.update = function(ballObj) {
-    this.position = ballObj.position;
+    // check if ball has dropped to the bottom
     if (!this.gg)
     {
         this.boundsCheck(ballObj);
         // just for fun, let's rotate mr rabbit a little
         ballObj.rotation += 0.025;
-        // score
-        this.count++;
-        this.score.text = this.count;
-        if (!this.ballMove)
+        // check if ball is flying up
+        if (!this.ballGoesUp)
         {
             ballObj.position.y += this.fallingSpeed[0];
             ballObj.position.x += this.fallingSpeed[1];
         }
 
         // move ball up when clicked
-        if (this.ballMove)
+        // TODO: implement parabolic formula for ball to mimic physics
+        if (this.ballGoesUp)
         {
             // up
             console.log(this.movePosition);
@@ -57,7 +51,7 @@ Ball.prototype.update = function(ballObj) {
                 this.movePosition[1] -= this.movePosition[2];
             }
             // WIP: left or right
-            else this.ballMove = false;
+            else this.ballGoesUp = false;
         }
     }
 };
@@ -79,8 +73,6 @@ Ball.prototype.boundsCheck = function(ballObj) {
     //  down
     if (ballObj.position.y > 800 && !this.gg)
     {
-        // TODO: move end game message
-        //alert("nooo");
         this.gg = true;
     }
     //  up
@@ -95,7 +87,7 @@ Ball.prototype.handleClickEvents = function(spriteToHandle) {
     var that = this;
     function onButtonDown() {
         // change movement to up
-        that.ballMove = true;
+        that.ballGoesUp = true;
         // set new falling speeds
         that.fallingSpeed[0] = Math.floor(Math.random() * 10 + 10);
         that.fallingSpeed[1] = Math.floor(Math.random() * 5 + 5 * that.leftOrRight);

@@ -1,18 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>Spinning Thing</title>
 	<script src="../lib/pixi.js"></script>
 	<script src="../scripts/gameLoop/playGame.js"></script>
 	<script src="../scripts/unitSprites/ball.js"></script>
 	<script src="../scripts/unitSprites/score.js"></script>
-	<script src="../scripts/main2.js"></script>
+	<script src="../scripts/main.js"></script>
 </head>
+
 <body onload="init();" onkeypress="restart(event)">
 <h1>Hello</h1>
+
 <script>
 	function init() {
-		main = new Main2();
+		main = new Main();
 	}
 	function restart(e) {
 		// press 'R'
