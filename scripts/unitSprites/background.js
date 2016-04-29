@@ -73,25 +73,25 @@ Background.prototype.update = function(backgroundToHandle, mouseData, stage) {
     var startPos = [];
     var endPos = [];
     var dragging = true;
-    var helloText = new PIXI.Sprite(PIXI.Texture.fromFrame("black_line"));
-    stage.addChild(helloText);
+    var trampoline = new PIXI.Sprite(PIXI.Texture.fromFrame("black_line"));
+    stage.addChild(trampoline);
     function onButtonDown() {
-        helloText.position.x = mouseData.x;
-        helloText.position.y = mouseData.y;
-        //stage.addChild(helloText);
+        trampoline.position.x = mouseData.x;
+        trampoline.position.y = mouseData.y;
+        //stage.addChild(trampoline);
         dragging = true;
     };
     
     function onButtonUp() {
         dragging = false;
-        stage.removeChild(helloText);
+        stage.removeChild(trampoline);
     };
     
     function onMouseDrag() {
         if (dragging)
         {
-            helloText.position.x = mouseData.x;
-            helloText.position.y = mouseData.y;
+            trampoline.position.x = mouseData.x;
+            trampoline.position.y = mouseData.y;
         }
     };
 };*/
