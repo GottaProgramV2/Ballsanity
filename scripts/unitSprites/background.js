@@ -4,94 +4,56 @@
  *              and creation of "trampolines"
  */
 
-// WIP
-function Background() {
+function Background(stage, mouseData) {
     PIXI.Container.call(this);
-    this.texture = PIXI.Texture.fromFrame("simple_background");
-    this.background_image = new PIXI.Sprite(this.texture);
+    this.background_image = new PIXI.Sprite(PIXI.Texture.fromFrame("simple_background"));
     this.background_image.interactive = true;
-
+    this.trampoline = new PIXI.Sprite(PIXI.Texture.fromFrame("Gumballs"));
+    this.trampoline.position.y = 9999;
+    this.radius = 57;
+    this.trampoline.anchor = { x: .5, y: .5 };
+    this.dragging = false;
+    
+    this.handleClickEvents(stage, mouseData);
     this.addChild(this.background_image);
+    this.addChild(this.trampoline);
 }
 
 Background.constructor = Background;
 Background.prototype = Object.create(PIXI.Container.prototype);
-Background.prototype.update = function(backgroundToHandle, mouseData, stage) {
-    backgroundToHandle
-        // start drag
-        .on('mousedown', onButtonDown)
-        .on('touchstart', onButtonDown)
-        // end drag
-        .on('mouseup', onButtonUp)
-        .on('mouseupoutside', onButtonUp)
-        .on('touchend', onButtonUp)
-        .on('touchendoutside', onButtonUp)
-        // drag 
-        .on('mousemove', onMouseDrag)
-        .on('touchmove', onMouseDrag);
-    
-    var startPos = [];
-    var endPos = [];
-    var dragging = true;
-    var helloText = new PIXI.Text("hello world");
-    function onButtonDown() {
-        helloText.x = mouseData.x;
-        helloText.y = mouseData.y;
-        stage.addChild(helloText);
-        dragging = true;
-    };
-    
-    function onButtonUp() {
-        dragging = false;
-        stage.removeChild(helloText);
-    };
-    
-    function onMouseDrag() {
-        if (dragging)
-        {
-            helloText.x = mouseData.x;
-            helloText.y = mouseData.y;
-        }
-    };
+Background.prototype.update = function(ballObj) {
+    this.collisionDetection(ballObj);
 };
 
-// attempt at trying to create a sprite when clicking
-/*Background.prototype.update = function(backgroundToHandle, mouseData, stage) {
-    backgroundToHandle
-        // start drag
+Background.prototype.collisionDetection = function(ballObj) {
+    // collision detection
+    if (ballObj.position.y + ballObj.radius > this.trampoline.y - this.radius &&
+        ballObj.position.x + ballObj.radius > this.trampoline.x - this.radius)
+    {
+        // move the trampoline out of site
+        this.trampoline.position.y = 9999;
+        // have the ball go up
+        ballObj.ballClicked = true;
+    }
+}
+
+Background.prototype.handleClickEvents = function(stage, mouseData) {
+    this.background_image
         .on('mousedown', onButtonDown)
-        .on('touchstart', onButtonDown)
+        .on('touchstart', onButtonDown);
         // end drag
-        .on('mouseup', onButtonUp)
+        /*.on('mouseup', onButtonUp)
         .on('mouseupoutside', onButtonUp)
         .on('touchend', onButtonUp)
-        .on('touchendoutside', onButtonUp)
+        .on('touchendoutside', onButtonUp)*/
         // drag 
-        .on('mousemove', onMouseDrag)
-        .on('touchmove', onMouseDrag);
+        /*.on('mousemove', onMouseDrag)
+        .on('touchmove', onMouseDrag);*/
     
-    var startPos = [];
-    var endPos = [];
-    var dragging = true;
-    var trampoline = new PIXI.Sprite(PIXI.Texture.fromFrame("black_line"));
-    stage.addChild(trampoline);
+    var that = this;
     function onButtonDown() {
-        trampoline.position.x = mouseData.x;
-        trampoline.position.y = mouseData.y;
-        //stage.addChild(trampoline);
-        dragging = true;
+        that.trampoline.position.x = mouseData.x;
+        that.trampoline.position.y = mouseData.y;
     };
-    
-    function onButtonUp() {
-        dragging = false;
-        stage.removeChild(trampoline);
-    };
-    
-    function onMouseDrag() {
-        if (dragging)
-        {
-            trampoline.position.x = mouseData.x;
-            trampoline.position.y = mouseData.y;
-        }
-    };
-};*/
+}
+

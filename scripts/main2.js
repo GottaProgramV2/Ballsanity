@@ -25,18 +25,20 @@ Main2.prototype.loadSpriteSheet = function() {
 //make an instance of our PlayGame class
 //request Animation frame will call the update function
 Main2.prototype.spriteSheetLoaded = function() {
-    this.playGame = new PlayGame(this.stage);
+    this.playGame = new PlayGame(this.stage, this.mousePos);
     requestAnimationFrame(this.update.bind(this));
 };
 //update will now update the game and render it, then request another update frame.
 Main2.prototype.update = function() {
-    this.playGame.update(this.mousePos);
+    this.playGame.update();
     this.renderer.render(this.stage);
     requestAnimationFrame(this.update.bind(this));
 };
 
-// TODO: separate this
 Main2.prototype.newGame = function() {
-    for (var i = this.stage.children.length - 1; i >= 0; i--) {	this.stage.removeChild(this.stage.children[i]); };
+    for (var i = this.stage.children.length - 1; i >= 0; i--) 
+    {	
+        this.stage.removeChild(this.stage.children[i]); 
+    }
     this.playGame = new PlayGame(this.stage);
 }

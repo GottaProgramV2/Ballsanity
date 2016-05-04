@@ -1,6 +1,6 @@
 /**
  * Created by Anthony on 4/20/2016.
- * description: this script will keep track of the points earned per session played
+ * @description: this script will keep track of the points earned per session played
  */
 
 // probably want to pass in ball array object
