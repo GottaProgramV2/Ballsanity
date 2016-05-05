@@ -24,6 +24,7 @@ PlayGame.prototype.constructPlayGame = function(stage, mouseData) {
         this.ballArray[i] = new Ball();
         this.ballArray[i].position.x = 300;
         this.ballArray[i].position.y = 200;
+        this.ballArray[i].setScale(.5,.5);
         //this.ballArray[i].scale.x = .8;
         //this.ballArray[i].scale.y = .8;
         // add ball to stage

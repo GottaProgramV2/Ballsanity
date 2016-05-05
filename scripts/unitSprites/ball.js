@@ -10,7 +10,7 @@ function Ball() {
     // set anchor
     this.ball.anchor = { x: .5, y: .5 };
     // give the ball a radius
-    this.radius = 57;
+    this.radius = this.ball.width / 2;
     // allow for event listeners
     this.ball.interactive = true;
     this.ballClicked = false;
@@ -109,3 +109,9 @@ Ball.prototype.handleClickEvents = function() {
 Ball.prototype.getOne = function() {
     return (Math.random() < .5) ? -1 : 1;
 };
+
+Ball.prototype.setScale = function(x,y) {
+    this.ball.scale.x = x;
+    this.ball.scale.y = y;
+    this.radius = this.ball.width / 2;
+}
