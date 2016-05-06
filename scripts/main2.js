@@ -1,6 +1,7 @@
 /**
  * Created by ajt on 4/16/2016.
  */
+ 
 function Main2() {
     var width = 600,
         height = 800;
@@ -41,6 +42,7 @@ Main2.prototype.newGame = function() {
     this.playGame = new PlayGame(this.stage, this.mousePos);
 };
 
-Main2.prototype.newBall = function() {
+Main2.prototype.addBall = function() {
     this.playGame.addBall();
-};
+}
+

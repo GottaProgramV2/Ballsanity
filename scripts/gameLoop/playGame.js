@@ -12,7 +12,6 @@ function PlayGame(stage, mouseData) {
 PlayGame.prototype.constructPlayGame = function() {
     // create background image
     this.background = new Background(this.stage, this.mouseData);
-    this.background.trampoline.position = {x:300,y:200};
     this.stage.addChild(this.background);
     // create score objects
     this.playerScore = new Score();
@@ -26,8 +25,6 @@ PlayGame.prototype.constructPlayGame = function() {
         this.ballArray[i].position.x = 300;
         this.ballArray[i].position.y = 200;
         this.ballArray[i].setScale(.5,.5);
-        //this.ballArray[i].scale.x = .8;
-        //this.ballArray[i].scale.y = .8;
         // add ball to stage
         this.stage.addChild(this.ballArray[i]);
     }
@@ -49,11 +46,12 @@ PlayGame.prototype.update = function() {
             var temp = this.ballArray[i];
             this.ballArray[i] = this.ballArray[this.numOfBalls];
             this.ballArray[this.numOfBalls] = temp;
-            
+            this.stage.removeChild(this.ballArray[this.numOfBalls]);
         }
         // update score if user hasn't lost
         this.playerScore.update(this.ballArray[i], this.numOfBalls);
     }
+    //if (this.playerScore.count % 10000 < 100) this.addBall();
 };
 
 PlayGame.prototype.addBall = function() {

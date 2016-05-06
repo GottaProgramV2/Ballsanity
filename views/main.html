@@ -9,21 +9,23 @@
 	<script src="../scripts/unitSprites/score.js"></script>
 	<script src="../scripts/main2.js"></script>
 </head>
-<body onload="init();" onkeypress="keyAction(event)">
+<body onload="init();" onkeypress="keyPressed(event);">
 <h1>Hello</h1>
 <script>
 	function init() {
 		main = new Main2();
 	}
-	function keyAction(e) {
-		// press 'R'
+	
+	function keyPressed(e) {
+		// press 'R' - 114 keypress - 82 keydown
 		if (e.keyCode == 114)
 		{
 			main.newGame();
 		}
+		// press 'E' - 101 keypress - 69 keydown
 		else if (e.keyCode == 101)
 		{
-			main.newBall();
+			main.addBall();
 		}
 	}
 </script>

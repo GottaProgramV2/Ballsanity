@@ -13,7 +13,7 @@ function Score() {
     // score to be displayed
     this.score = new PIXI.Text("0");
     this.score.x = 10;
-    this.score.y = 800 - 35;
+    this.score.y = 800 - 40;
     this.addChild(this.score);
 }
 

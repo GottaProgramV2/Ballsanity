@@ -16,7 +16,7 @@ function Background(stage, mouseData) {
     this.handleClickEvents(stage, mouseData);
     this.addChild(this.background_image);
     this.addChild(this.trampoline);
-}
+};
 
 Background.constructor = Background;
 Background.prototype = Object.create(PIXI.Container.prototype);
@@ -27,33 +27,47 @@ Background.prototype.update = function(ballObj) {
 Background.prototype.collisionDetection = function(ballObj) {
     // collision detection
     // TODO: change static height and width to variables to match scaling
-    //  left side of line
-    var x_difference_L = Math.abs((ballObj.position.x + ballObj.radius) - (this.trampoline.x - 50));
-    //  right side of line
-    var x_difference_R = Math.abs((ballObj.position.x + ballObj.radius) - (this.trampoline.x + 50));
-    //  top of line
-    var y_difference = Math.abs((ballObj.position.y + ballObj.radius) - (this.trampoline.y - 10));
-    var collisionThreshold = 15;
-    if ((x_difference_L < 25 || x_difference_R < 25) && 
-        y_difference < collisionThreshold)
+    var x_difference = Math.abs((ballObj.position.x + ballObj.radius) - (this.trampoline.x));
+    var y_difference = Math.abs((ballObj.position.y + ballObj.radius) - (this.trampoline.y));
+    if (x_difference < 50 && y_difference < 10)
     {
         // move the trampoline out of sight
-        this.trampoline.position.y = 9999;
+        if (!this.dragging) this.trampoline.position.y = 9999;
         // have the ball go up
-        ballObj.ballClicked = true;
+        ballObj.ballGoesUp = true;
     }
-}
+};
 
 Background.prototype.handleClickEvents = function(stage, mouseData) {
     // listeners
     this.background_image
-        .on('mousedown', onButtonDown)
-        .on('touchstart', onButtonDown);
+        // start drag		
+        .on('mousedown', onButtonDown)		
+        .on('touchstart', onButtonDown)		
+        // end drag		
+        .on('mouseup', onButtonUp)		
+        .on('mouseupoutside', onButtonUp)		
+        .on('touchend', onButtonUp)		
+        .on('touchendoutside', onButtonUp)		
+        // drag 		
+        .on('mousemove', onButtonDrag)		
+        .on('touchmove', onButtonDrag);
     
     var that = this;
     function onButtonDown() {
         that.trampoline.position.x = mouseData.x;
         that.trampoline.position.y = mouseData.y;
-    };
-}
+        that.dragging = true;
+    }
+    function onButtonUp() {
+        that.dragging = false;
+    }
+    function onButtonDrag() {
+        if (that.dragging)
+        {
+            that.trampoline.position.x = mouseData.x;
+            that.trampoline.position.y = mouseData.y;
+        }
+    }
+};
 

@@ -13,7 +13,7 @@ function Ball() {
     this.radius = this.ball.width / 2;
     // allow for event listeners
     this.ball.interactive = true;
-    this.ballClicked = false;
+    this.ballGoesUp = false;
     this.gameOver = false;
     // constants for falling
     this.fallingSpeed = { x: (Math.random() * 10 + 3) * this.getOne(), y: 5 };
@@ -34,7 +34,7 @@ Ball.prototype.update = function(ballObj) {
         this.boundsCheck(ballObj);
         // rotate ball
         ballObj.rotation += 0.025;
-        if (!this.ballClicked)
+        if (!this.ballGoesUp)
         {
             ballObj.position.x += this.fallingSpeed.x;
             ballObj.position.y += this.fallingSpeed.y;
@@ -44,13 +44,13 @@ Ball.prototype.update = function(ballObj) {
         else
         {
             // up
-            if (this.ballClicked)
+            if (this.ballGoesUp)
             {
                 ballObj.position.x += this.upSpeed.x;
                 ballObj.position.y -= this.upSpeed.y;
             }
             // once the ball has reached it's required height, make it fall again
-            else this.ballClicked = false;
+            else this.ballGoesUp = false;
         }
         
     }
@@ -82,7 +82,7 @@ Ball.prototype.boundsCheck = function(ballObj) {
     else if (ballObj.position.y < 0) 
     {
         ballObj.position.y = 0;
-        this.ballClicked = false;
+        this.ballGoesUp = false;
     }
 };
 
@@ -94,7 +94,7 @@ Ball.prototype.handleClickEvents = function() {
     var that = this;
     function onButtonDown() {
         // change movement to up
-        that.ballClicked = true;
+        that.ballGoesUp = true;
         that.fallingSpeed.x = (Math.random() * 10 + 10) * that.getOne();
         that.fallingSpeed.y = Math.random() * 10 + 10;
         //that.upSpeed.x = Math.random() * 10 + 20;
