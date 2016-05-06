@@ -26,14 +26,17 @@ Background.prototype.update = function(ballObj) {
 
 Background.prototype.collisionDetection = function(ballObj) {
     // collision detection
-    // TODO: change static height and width to variables to match scaling
-    var x_difference = Math.abs((ballObj.position.x + ballObj.radius) - (this.trampoline.x));
-    var y_difference = Math.abs((ballObj.position.y + ballObj.radius) - (this.trampoline.y));
-    if (x_difference < 50 && y_difference < 10)
+    var x_difference = Math.abs(ballObj.position.x - this.trampoline.x);
+    var y_difference = Math.abs(ballObj.position.y - this.trampoline.y);
+    // x^2 + y^2
+    var cornerDistance = Math.pow(x_difference - this.trampoline.width/2,2) + Math.pow(y_difference - this.trampoline.height/2,2);
+    
+    if (x_difference <= this.trampoline.width/2 && y_difference <= this.trampoline.height/2 ||
+        cornerDistance <= Math.pow(ballObj.radius,2))
     {
         // move the trampoline out of sight
         if (!this.dragging) this.trampoline.position.y = 9999;
-        // have the ball go up
+        // have the ball go upe
         ballObj.ballGoesUp = true;
     }
 };
