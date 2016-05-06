@@ -33,8 +33,8 @@ Background.prototype.collisionDetection = function(ballObj) {
     var x_difference_R = Math.abs((ballObj.position.x + ballObj.radius) - (this.trampoline.x + 50));
     //  top of line
     var y_difference = Math.abs((ballObj.position.y + ballObj.radius) - (this.trampoline.y - 10));
-    var collisionThreshold = 10;
-    if ((x_difference_L < collisionThreshold || x_difference_R < collisionThreshold) && 
+    var collisionThreshold = 15;
+    if ((x_difference_L < 25 || x_difference_R < 25) && 
         y_difference < collisionThreshold)
     {
         // move the trampoline out of sight

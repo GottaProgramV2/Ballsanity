@@ -6,7 +6,7 @@ function Main2() {
         height = 800;
     this.renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor: 0x1099bb});
     document.body.appendChild(this.renderer.view);
-    this.stage = new PIXI.Container();
+    this.stage = new PIXI.Container(0x1099bb);
     
     this.mousePos = this.renderer.plugins.interaction.mouse.global;
     
@@ -20,7 +20,7 @@ Main2.prototype.loadSpriteSheet = function() {
     "../res/black_line.png", "../res/black_line.json"],
         loader = new PIXI.loaders.Loader();
     //this will load the assets to load, then call the spriteSheetLoaded function once finished...
-    loader.add(assetsToLoad).load(this.spriteSheetLoaded.bind(this))
+    loader.add(assetsToLoad).load(this.spriteSheetLoaded.bind(this));
 };
 //make an instance of our PlayGame class
 //request Animation frame will call the update function
@@ -36,9 +36,11 @@ Main2.prototype.update = function() {
 };
 
 Main2.prototype.newGame = function() {
-    for (var i = this.stage.children.length - 1; i >= 0; i--) 
-    {	
-        this.stage.removeChild(this.stage.children[i]); 
-    }
-    this.playGame = new PlayGame(this.stage);
-}
+    this.stage.destroy();
+    this.stage = new PIXI.Container(0x1099bb);
+    this.playGame = new PlayGame(this.stage, this.mousePos);
+};
+
+Main2.prototype.newBall = function() {
+    this.playGame.addBall();
+};

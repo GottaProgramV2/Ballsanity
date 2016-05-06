@@ -9,6 +9,7 @@ function Score() {
     PIXI.Container.call(this);
     // score to be incremented
     this.count = 0;
+    this.addedPoints = true;
     // score to be displayed
     this.score = new PIXI.Text("0");
     this.score.x = 10;
@@ -18,8 +19,8 @@ function Score() {
 
 Score.constructor = Score;
 Score.prototype = Object.create(PIXI.Container.prototype);
-Score.prototype.update = function() {
+Score.prototype.update = function(ballObj, numOfBalls) {
     // simple algorithm
-    this.count++;
+    this.count += numOfBalls;
     this.score.text = this.count;
 };

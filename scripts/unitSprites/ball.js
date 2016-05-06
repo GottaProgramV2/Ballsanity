@@ -95,7 +95,6 @@ Ball.prototype.handleClickEvents = function() {
     function onButtonDown() {
         // change movement to up
         that.ballClicked = true;
-        
         that.fallingSpeed.x = (Math.random() * 10 + 10) * that.getOne();
         that.fallingSpeed.y = Math.random() * 10 + 10;
         //that.upSpeed.x = Math.random() * 10 + 20;
