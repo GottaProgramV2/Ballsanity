@@ -1,110 +1,117 @@
 /**
  * Created by ajt on 4/16/2016.
+ * description: This script handles the state and properties of the main game objects
  */
+ 
 function Ball() {
     //it makes a new container with this
     PIXI.Container.call(this);
     //construct the ball in this function.
-    this.count = 0;
-    this.texture = PIXI.Texture.fromFrame("Gumballs");
-    this.ball = new PIXI.Sprite(this.texture);
-    this.ball.anchor.x = .5;
-    this.ball.anchor.y = .5;
+    this.ball = new PIXI.Sprite(PIXI.Texture.fromFrame("Gumballs"));
+    // set anchor
+    this.ball.anchor = { x: .5, y: .5 };
+    // give the ball a radius
+    this.radius = this.ball.width / 2;
+    // allow for event listeners
     this.ball.interactive = true;
-    this.ballMove = false;
-    this.gg = false;
-    this.score = new PIXI.Text("0");
-    this.score.x = 200;
-    this.score.y = 40;
-    this.movePosition = [];
-    this.leftOrRight = 1;
-    this.fallingSpeed = [Math.floor(Math.random() * 5 + 1), Math.floor(Math.random() * 10 + 20 * -1)];
-    this.handleClickEvents(this.ball);
+    this.ballGoesUp = false;
+    this.gameOver = false;
+    // constants for falling
+    this.fallingSpeed = { x: (Math.random() * 10 + 3) * this.getOne(), y: 5 };
+    // constants for flying up
+    this.upSpeed = { x: 0, y: 15 };
+    this.difficulty = 0;
+    
+    this.handleClickEvents();
     this.addChild(this.ball);
-    //this.addChild(this.score);
 }
 
 Ball.constructor = Ball;
-
 Ball.prototype = Object.create(PIXI.Container.prototype);
-
 Ball.prototype.update = function(ballObj) {
-    this.position = ballObj.position;
-    if (!this.gg)
+    //this.position = ballObj.position;
+    if (!this.gameOver)
     {
         this.boundsCheck(ballObj);
-        // just for fun, let's rotate mr rabbit a little
+        // rotate ball
         ballObj.rotation += 0.025;
-        // score
-        this.count++;
-        this.score.text = this.count;
-        if (!this.ballMove)
+        if (!this.ballGoesUp)
         {
-            ballObj.position.y += this.fallingSpeed[0];
-            ballObj.position.x += this.fallingSpeed[1];
+            ballObj.position.x += this.fallingSpeed.x;
+            ballObj.position.y += this.fallingSpeed.y;
         }
 
         // move ball up when clicked
-        if (this.ballMove)
+        else
         {
             // up
-            console.log(this.movePosition);
-            if (this.movePosition[1] > 0)
+            if (this.ballGoesUp)
             {
-                console.log("ffffff");
-                console.log(ballObj.position.y);
-                ballObj.position.y -= this.movePosition[2];
-                this.movePosition[1] -= this.movePosition[2];
+                ballObj.position.x += this.upSpeed.x;
+                ballObj.position.y -= this.upSpeed.y;
             }
-            // WIP: left or right
-            else this.ballMove = false;
+            // once the ball has reached it's required height, make it fall again
+            else this.ballGoesUp = false;
         }
+        
     }
 };
+
 Ball.prototype.boundsCheck = function(ballObj) {
     // x-axis
     //  right
     if (ballObj.position.x > 600)
     {
-        ballObj.position.x = 600 - (ballObj.position.x - 600);
-        this.fallingSpeed[1] *= -1;
+        ballObj.position.x = 600;
+        this.fallingSpeed.x *= -1;
+        this.upSpeed.x *= -1;
     }
     //  left
     else if (ballObj.position.x < 0)
     {
-        ballObj.position.x *= -1;
-        this.fallingSpeed[1] *= -1;
+        ballObj.position.x = 0;
+        this.fallingSpeed.x *= -1;
+        this.upSpeed.x *= -1;
     }
     // y-axis
     //  down
-    if (ballObj.position.y > 800 && !this.gg)
+    if (ballObj.position.y > 800 && !this.gameOver)
     {
-        // TODO: move end game message
-        //alert("nooo");
-        this.gg = true;
+        this.gameOver = true;
     }
     //  up
-    else if (ballObj.position.y < 0) ballObj.position.y *= -1;
+    else if (ballObj.position.y < 0) 
+    {
+        ballObj.position.y = 0;
+        this.ballGoesUp = false;
+    }
 };
 
-Ball.prototype.handleClickEvents = function(spriteToHandle) {
-    spriteToHandle
+Ball.prototype.handleClickEvents = function() {
+    this.ball
         .on('mousedown', onButtonDown)
         .on('touchstart', onButtonDown);
 
     var that = this;
     function onButtonDown() {
         // change movement to up
-        that.ballMove = true;
-        // set new falling speeds
-        that.fallingSpeed[0] = Math.floor(Math.random() * 10 + 10);
-        that.fallingSpeed[1] = Math.floor(Math.random() * 5 + 5 * that.leftOrRight);
-        // choose left or right for falling speed
-        if (Math.random() < .5) that.fallingSpeed[1] *= -1;
-        // set goal position for that.ball
-        that.movePosition[0] = that.position.x - Math.floor(Math.random() * 50 + 3);
-        that.movePosition[1] = that.position.y - Math.floor(Math.random() * 50 + 3);
-        // set increment values for that.ball position
-        that.movePosition[2] = Math.floor(Math.random() * 5 + 20);
+        that.ballGoesUp = true;
+        that.fallingSpeed.x = (Math.random() * 10 + 10) * that.getOne();
+        that.fallingSpeed.y = Math.random() * 10 + 10;
+        //that.upSpeed.x = Math.random() * 10 + 20;
     }
 };
+
+/**
+ * Generates a number between 0-1 and returns -1 or 1
+ * @returns {number}
+ */
+Ball.prototype.getOne = function() {
+    return (Math.random() < .5) ? -1 : 1;
+};
+
+Ball.prototype.setScale = function(x,y) {
+    this.ball.scale.x = x;
+    this.ball.scale.y = y;
+    this.radius = this.ball.width / 2;
+}
