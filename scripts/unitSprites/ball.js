@@ -17,7 +17,7 @@ function Ball() {
     this.ballGoesUp = false;
     this.gameOver = false;
     // constants for falling
-    this.fallingSpeed = { x: (Math.random() * 10 + 3) * this.getOne(), y: 5 };
+    this.fallingSpeed = { x: (Math.random() * 10 + 3) * this.getOne(), y: (Math.random() * 5 + 3) };
     // constants for flying up
     this.upSpeed = { x: 0, y: 15 };
     this.difficulty = 0;

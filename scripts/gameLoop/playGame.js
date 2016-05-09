@@ -18,7 +18,7 @@ PlayGame.prototype.constructPlayGame = function() {
     this.stage.addChild(this.playerScore);
     // create ball objects
     this.ballArray = [];
-    this.numOfBalls = 2;
+    this.numOfBalls = 7;
     for (var i = 0; i < this.numOfBalls; i++)
     {
         this.ballArray[i] = new Ball();
